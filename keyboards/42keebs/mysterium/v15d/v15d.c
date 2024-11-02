@@ -15,6 +15,22 @@
  */
 #include "v15d.h"
 
+#ifdef OLED_ENABLE
 oled_rotation_t oled_init_kb(oled_rotation_t rotation) {
     return OLED_ROTATION_180;
 }
+
+bool oled_task_user(void) {
+
+  oled_write_ln_P(PSTR(" Mysterium  TKL "), true);
+
+  // Host Keyboard LED Status
+  led_t led_state = host_keyboard_led_state();
+  oled_write_P(PSTR("Caps Lock:   "), false);
+  oled_write_ln_P(led_state.caps_lock ? PSTR("On") : PSTR("Off"), false);
+  oled_write_P(PSTR("Scroll Lock: "), false);
+  oled_write_ln_P(led_state.scroll_lock ? PSTR("On") : PSTR("Off"), false);
+
+  return false;
+}
+#endif
